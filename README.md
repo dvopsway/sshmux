@@ -5,7 +5,7 @@ usage :
 
 ```
 [root@10.56.45.63 notebooks]# python commands_over_ssh.py 10.56.45.64 10.56.45.65
-SSH Username : padmakaro
+SSH Username : root
 Password:
 Enter your commands below:
 
