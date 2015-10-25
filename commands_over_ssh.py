@@ -35,7 +35,7 @@ while command != "quit":
     for each in servers:
         output = ssh(each,command,username,password)
         print each + " : "  
-	for line in output.split('\n')[2:]:
+	for line in output.split('\n')[1:]:
 		print line
     command = str(raw_input(">> "))
 print "session closed"
