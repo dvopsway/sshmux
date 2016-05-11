@@ -1,5 +1,5 @@
 # remote_command_execution
-run commands over ssh on muliple servers by passing servers as a command line parameter
+run commands over ssh on multiple servers by passing servers as a command line parameter
 
 usage :
 
