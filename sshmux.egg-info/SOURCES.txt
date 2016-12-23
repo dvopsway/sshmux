@@ -1,4 +1,3 @@
-setup.cfg
 setup.py
 sshmux/__init__.py
 sshmux/ssh.py
