@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1.1'
+version = '0.1.3'
 
 setup(name='sshmux',
       version=version,
@@ -16,9 +16,7 @@ setup(name='sshmux',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      install_requires=[
-          # -*- Extra requirements: -*-
-      ],
+      install_requires=["pexpect","click"],
       entry_points={
           'console_scripts': [
               'sshmux = sshmux.ssh:sshmux',

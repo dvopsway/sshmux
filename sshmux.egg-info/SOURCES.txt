@@ -6,4 +6,5 @@ sshmux.egg-info/SOURCES.txt
 sshmux.egg-info/dependency_links.txt
 sshmux.egg-info/entry_points.txt
 sshmux.egg-info/not-zip-safe
+sshmux.egg-info/requires.txt
 sshmux.egg-info/top_level.txt
