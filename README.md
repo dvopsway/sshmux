@@ -1,6 +1,6 @@
-# sshmux
+# Sshmux
 
-Run commands over ssh on multiple server, sshmux can help you in debugging stuff on multiple server, continue reading to understand how it works.
+Run commands over ssh on multiple servers, sshmux can help you in debugging stuff on multiple servers parallelly, continue reading to understand how it works.
 
 ## Installation :
 
@@ -10,7 +10,7 @@ Use pip to install sshmux
 pip install sshmux
 ```
 
-#### Alternative
+#### Alternate installation
 
 You can also compile from source, just clone the repo and run the command below:
 

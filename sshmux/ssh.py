@@ -1,15 +1,17 @@
-import subprocess
 import pexpect
-import sys
 import tempfile
-import getpass
 import click
 
 
 def ssh(host, cmd, user, password, timeout=30, bg_run=False):
     fname = tempfile.mktemp()
     fout = open(fname, 'w')
-    options = '-q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oPubkeyAuthentication=no'
+    option = []
+    option.append("-q")
+    option.append("-oStrictHostKeyChecking=no")
+    option.append("-oUserKnownHostsFile=/dev/null")
+    option.append("-oPubkeyAuthentication=no")
+    options = " ".join(option)
     if bg_run:
         options += ' -f'
     ssh_cmd = 'ssh %s@%s %s "%s"' % (user, host, options, cmd)
@@ -31,7 +33,11 @@ def ssh(host, cmd, user, password, timeout=30, bg_run=False):
 def ssh_key(host, cmd, user, key, timeout=30, bg_run=False):
     fname = tempfile.mktemp()
     fout = open(fname, 'w')
-    options = '-q -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
+    option = []
+    option.append("-q")
+    option.append("-oStrictHostKeyChecking=no")
+    option.append("-oUserKnownHostsFile=/dev/null")
+    options = " ".join(option)
     if bg_run:
         options += ' -f'
     ssh_cmd = 'ssh -i %s %s@%s %s "%s"' % (key, user, host, options, cmd)
@@ -71,6 +77,7 @@ def sshmux(ip, username, password, key):
                 print line
         command = str(raw_input("sshmux > "))
     print "session closed"
+
 
 if __name__ == '__main__':
     sshmux()

@@ -1,6 +1,4 @@
 from setuptools import setup, find_packages
-import sys
-import os
 
 version = '0.1'
 
@@ -9,7 +7,7 @@ setup(name='sshmux',
       description="Work on multiple machines over ssh at once",
       long_description="""\
 """,
-      classifiers=[],  # Get strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      classifiers=[],
       keywords='ssh',
       author='Padmakar Ojha',
       author_email='padmakar.ojha@gmail.com',
