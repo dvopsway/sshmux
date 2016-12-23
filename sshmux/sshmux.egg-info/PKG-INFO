@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: sshmux
+Version: 0.1dev-r0
+Summary: Work on multiple machines over ssh at once
+Home-page: github.com/dvopsway
+Author: Padmakar Ojha
+Author-email: padmakar.ojha@gmail.com
+License: GPL-3.0
+Description: UNKNOWN
+Keywords: ssh
+Platform: UNKNOWN

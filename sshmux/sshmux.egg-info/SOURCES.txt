@@ -1,0 +1,10 @@
+setup.cfg
+setup.py
+sshmux/__init__.py
+sshmux/ssh.py
+sshmux.egg-info/PKG-INFO
+sshmux.egg-info/SOURCES.txt
+sshmux.egg-info/dependency_links.txt
+sshmux.egg-info/entry_points.txt
+sshmux.egg-info/not-zip-safe
+sshmux.egg-info/top_level.txt
