@@ -3,45 +3,27 @@ import tempfile
 import click
 
 
-def ssh(host, cmd, user, password, timeout=30, bg_run=False):
+def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
     fname = tempfile.mktemp()
     fout = open(fname, 'w')
     option = []
     option.append("-q")
     option.append("-oStrictHostKeyChecking=no")
     option.append("-oUserKnownHostsFile=/dev/null")
-    option.append("-oPubkeyAuthentication=no")
+    if password != "":
+        option.append("-oPubkeyAuthentication=no")
     options = " ".join(option)
     if bg_run:
         options += ' -f'
-    ssh_cmd = 'ssh %s@%s %s "%s"' % (user, host, options, cmd)
+    ssh_cmd = None
+    if password == "":
+        ssh_cmd = 'ssh -i %s %s@%s %s "%s"' % (key, user, host, options, cmd)
+    else:
+        ssh_cmd = 'ssh %s@%s %s "%s"' % (user, host, options, cmd)
     child = pexpect.spawn(ssh_cmd, timeout=timeout)
-    child.expect(['password: '])
-    child.sendline(password)
-    child.logfile = fout
-    child.expect(pexpect.EOF)
-    child.close()
-    fout.close()
-    fin = open(fname, 'r')
-    stdout = fin.read()
-    fin.close()
-    if 0 != child.exitstatus:
-        raise Exception(stdout)
-    return stdout
-
-
-def ssh_key(host, cmd, user, key, timeout=30, bg_run=False):
-    fname = tempfile.mktemp()
-    fout = open(fname, 'w')
-    option = []
-    option.append("-q")
-    option.append("-oStrictHostKeyChecking=no")
-    option.append("-oUserKnownHostsFile=/dev/null")
-    options = " ".join(option)
-    if bg_run:
-        options += ' -f'
-    ssh_cmd = 'ssh -i %s %s@%s %s "%s"' % (key, user, host, options, cmd)
-    child = pexpect.spawn(ssh_cmd, timeout=timeout)
+    if password != "":
+        child.expect(['password: '])
+        child.sendline(password)
     child.logfile = fout
     child.expect(pexpect.EOF)
     child.close()
@@ -67,11 +49,7 @@ def sshmux(ip, username, password, key):
     command = raw_input("sshmux > ")
     while command != "quit":
         for each in servers:
-            output = ""
-            if upass == '':
-                output = ssh_key(each, command, uname, key)
-            else:
-                output = ssh(each, command, uname, upass)
+            output = ssh(each, command, uname, upass, key)
             print each + " : "
             for line in output.split('\n')[1:]:
                 print line
