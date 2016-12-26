@@ -49,16 +49,19 @@ def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
 
 def validate_ip(ctx, param, value):
     "validate ip addresses"
-    for ip in value:
+    for address in value:
         try:
-            socket.inet_aton(ip)
+            socket.inet_aton(address)
         except socket.error:
-            raise click.BadParameter(
-                '{0} - IP address is not valid'.format(ip))
+            try:
+                socket.gethostbyaddr(address)
+            except:
+                raise click.BadParameter(
+                    '{0} - Address is not valid'.format(address))
     return value
 
 
-def validate_pass(ctx, param, value):
+def validate_pass(value):
     """validate password lenght"""
     if len(value) == 0 or len(value) > 100:
         raise click.BadParameter('password length is not valid')
@@ -72,7 +75,7 @@ def validate_user(ctx, param, value):
     return value
 
 
-def validate_key(ctx, param, value):
+def validate_key(value):
     """validate that key exists."""
     if os.path.exists(value):
         return value
@@ -84,17 +87,19 @@ def validate_key(ctx, param, value):
 @click.option('--ip', '-i', callback=validate_ip, multiple=True, help='IP address')
 @click.option('--username', '-u', callback=validate_user, default='', help='ssh username')
 @click.option('--password', '-p', default='', help='ssh password')
-@click.option('--key', '-k', callback=validate_key, default='', help='ssh private key')
+@click.option('--key', '-k', default='', help='ssh private key')
 def sshmux(ip, username, password, key):
     """Open ssh session with each ip and execute a command from stdin."""
     uname = username
     upass = password
+    private_key = None
+    if key != '':
+        private_key = validate_key(key)
     print "Enter your commands below:\n"
     command = raw_input("sshmux > ")
-
     while command != "quit":
         for server in ip:
-            output = ssh(server, command, uname, upass, key)
+            output = ssh(server, command, uname, upass, private_key)
             print server + " : "
             for line in output.split('\n')[1:]:
                 print line
