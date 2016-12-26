@@ -47,15 +47,15 @@ def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
     return stdout
 
 
-def validate_ip(ctx, param, value):
-    "validate ip addresses"
+def validate_hostname(ctx, param, value):
+    "validate hostname / IP address"
     for address in value:
         try:
             socket.inet_aton(address)
         except socket.error:
             try:
                 socket.gethostbyaddr(address)
-            except:
+            except socket.gaierror:
                 raise click.BadParameter(
                     '{0} - Address is not valid'.format(address))
     return value
@@ -84,11 +84,11 @@ def validate_key(value):
 
 
 @click.command()
-@click.option('--ip', '-i', callback=validate_ip, multiple=True, help='IP address')
+@click.option('--hostname', '-h', callback=validate_hostname, multiple=True, help='IP address or hostname')
 @click.option('--username', '-u', callback=validate_user, default='', help='ssh username')
 @click.option('--password', '-p', default='', help='ssh password')
 @click.option('--key', '-k', default='', help='ssh private key')
-def sshmux(ip, username, password, key):
+def sshmux(hostname, username, password, key):
     """Open ssh session with each ip and execute a command from stdin."""
     uname = username
     upass = password
@@ -98,7 +98,7 @@ def sshmux(ip, username, password, key):
     print "Enter your commands below:\n"
     command = raw_input("sshmux > ")
     while command != "quit":
-        for server in ip:
+        for server in hostname:
             output = ssh(server, command, uname, upass, private_key)
             print server + " : "
             for line in output.split('\n')[1:]:
