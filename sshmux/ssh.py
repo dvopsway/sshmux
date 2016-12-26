@@ -1,6 +1,8 @@
 import pexpect
 import tempfile
 import click
+import socket
+import os.path
 
 
 def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
@@ -36,11 +38,39 @@ def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
     return stdout
 
 
+def validate_ips(ctx, param, value):
+    for each in value:
+        try:
+            socket.inet_aton(each)
+        except socket.error:
+            raise click.BadParameter('%s - IP address is not valid' % each)
+    return value
+
+
+def validate_pass(ctx, param, value):
+    if len(value) == 0 or len(value) > 100:
+        raise click.BadParameter('password length is not valid')
+    return value
+
+
+def validate_user(ctx, param, value):
+    if len(value) == 0 or len(value) > 100:
+        raise click.BadParameter('username length is not valid')
+    return value
+
+
+def validate_key(ctx, param, value):
+    if os.path.exists(value):
+        return value
+    else:
+        raise click.BadParameter('%s file doesn\'t exist' % value)
+
+
 @click.command()
-@click.option('--ip', '-i', multiple=True, help='IP address')
-@click.option('--username', '-u', default='', help='ssh username')
+@click.option('--ip', '-i', callback=validate_ips, multiple=True, help='IP address')
+@click.option('--username', '-u', callback=validate_user, default='', help='ssh username')
 @click.option('--password', '-p', default='', help='ssh password')
-@click.option('--key', '-k', default='', help='ssh private key')
+@click.option('--key', '-k', callback=validate_key, default='', help='ssh private key')
 def sshmux(ip, username, password, key):
     servers = ip
     uname = username
