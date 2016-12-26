@@ -1,10 +1,10 @@
+from __future__ import print_function
 import pexpect
 import tempfile
 import click
 import socket
-import os.path
-from os import unlink
 
+from os import path, unlink
 
 def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
 
@@ -77,7 +77,7 @@ def validate_user(ctx, param, value):
 
 def validate_key(value):
     """validate that key exists."""
-    if os.path.exists(value):
+    if path.exists(value):
         return value
     else:
         raise click.BadParameter('{0} file doesn\'t exist'.format(value))
@@ -90,21 +90,20 @@ def validate_key(value):
 @click.option('--key', '-k', default='', help='ssh private key')
 def sshmux(hostname, username, password, key):
     """Open ssh session with each ip and execute a command from stdin."""
-    uname = username
-    upass = password
+    
     private_key = None
     if key != '':
         private_key = validate_key(key)
-    print "Enter your commands below:\n"
+    print("Enter your commands below:\n")
     command = raw_input("sshmux > ")
     while command != "quit":
         for server in hostname:
-            output = ssh(server, command, uname, upass, private_key)
-            print server + " : "
+            output = ssh(server, command, username, password, private_key)
+            print(server + ":\n")
             for line in output.split('\n')[1:]:
-                print line
+                print(line)
         command = str(raw_input("sshmux > "))
-    print "session closed"
+    print("session closed")
 
 
 if __name__ == '__main__':
