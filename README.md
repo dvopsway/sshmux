@@ -28,7 +28,7 @@ sshmux --help
 Usage: sshmux [OPTIONS]
 
 Options:
-  -i, --ip TEXT        IP address
+  -h, --hostname TEXT  hostname or IP address
   -u, --username TEXT  ssh username
   -p, --password TEXT  ssh password
   -k, --key TEXT       ssh private key
@@ -40,7 +40,7 @@ Check the example usage to get started
 ## Example Usage :
 
 ```
-➜  ~  sshmux -i 10.0.0.3 -i 10.0.0.4 -u "ec2-user" -k ~/awstempkey.pem
+➜  ~  sshmux -h 10.0.0.3 -h 10.0.0.4 -u "ec2-user" -k ~/awstempkey.pem
 Enter your commands below:
 
 sshmux > ls -al /tmp
