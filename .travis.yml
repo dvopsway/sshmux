@@ -20,7 +20,7 @@ script:
 - flake8 sshmux/.
 - COVERAGE_FILE=.coverage_ssh coverage run tests/test_ssh.py
 - COVERAGE_FILE=.coverage_validations coverage run tests/test_validations.py
-- coverage combine
+- coverage combine .coverage_ssh .coverage_validations
 after_success:
 - codecov
 deploy:
