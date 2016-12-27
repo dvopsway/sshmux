@@ -1,10 +1,6 @@
 language: python
 python:
   - "2.7"
-env:
-- sshmux_test_host=127.0.0.1
-- sshmux_test_user=travis
-- sshmux_test_key=~/.ssh/id_rsa
 install:
   - pip install -r requirements.txt
   - pip install flake8
@@ -15,6 +11,9 @@ before_script:
   - cp ~/.ssh/{id_rsa.pub,authorized_keys}
   - eval $(ssh-agent)
   - ssh-add
+  - export sshmux_test_host=127.0.0.1
+  - export sshmux_test_user=travis
+  - export sshmux_test_key=~/.ssh/id_rsa
 script:
   - flake8 sshmux/.
   - python tests/test_ssh.py -v
