@@ -63,9 +63,11 @@ sshmux > quit
 ```
 
 ## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+if your code doesn't follow the contribution guidelines it won't be merged
+1. read CONTRIBUTING.md
+2. Fork it!
+3. Create your feature branch: `git checkout -b my-new-feature`
+4. stage your feature: `git add <changed_file>`
+5. Commit your changes: `git commit -m 'feat: add new feature' -m 'add my-new-feature, use it as: my-new-feautre(args)' -m 'closes #26'`
+5. Push to the branch: `git push origin my-new-feature`
+6. Submit a pull request :D
