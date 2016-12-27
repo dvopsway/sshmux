@@ -18,7 +18,6 @@ before_script:
 - export sshmux_test_key=~/.ssh/id_rsa
 script:
 - flake8 sshmux/.
-- python tests/test_ssh.py -v
 - coverage run tests/test_ssh.py
 - coverage run tests/test_validations.py
 after_success:
