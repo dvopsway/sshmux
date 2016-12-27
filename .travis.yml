@@ -3,7 +3,7 @@ python:
   - "2.7"
 env:
 - sshmux_test_host=127.0.0.1
-- sshmux_test_user=ubuntu
+- sshmux_test_user=travis
 - sshmux_test_key=~/.ssh/id_rsa
 install:
   - pip install -r requirements.txt
@@ -17,4 +17,4 @@ before_script:
   - ssh-add
 script:
   - flake8 sshmux/.
-  #  - python tests/test_ssh.py -v
+  - python tests/test_ssh.py -v
