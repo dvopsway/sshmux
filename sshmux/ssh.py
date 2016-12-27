@@ -9,24 +9,20 @@ import socket
 from os import path, unlink
 
 
-def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
-
+def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
+    """connect to host via ssh"""
     output_file = tempfile.NamedTemporaryFile(delete=False)
-    option = []
-    option.append("-q")
-    option.append("-oStrictHostKeyChecking=no")
-    option.append("-oUserKnownHostsFile=/dev/null")
-
+    option = ["-q", "-oStrictHostKeyChecking=no", "-oUserKnownHostsFile=/dev/null"]
     if password != "":
         option.append("-oPubkeyAuthentication=no")
-    options = " ".join(option)
     if bg_run:
-        options += ' -f'
+        option.append('-f')
+    options = " ".join(option)
     ssh_cmd = None
     if password == "":
         ssh_cmd = 'ssh -i {0} {1}@{2} {3} "{4}"'.format(
             key, user, host, options, cmd)
-    else:
+    elif password != "":
         ssh_cmd = 'ssh {0}@{1} {2} "{3}"'.format(user, host, options, cmd)
 
     child = pexpect.spawn(ssh_cmd, timeout=timeout)
@@ -45,7 +41,7 @@ def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
     read_file.close()
     unlink(output_file.name)
 
-    if 0 != child.exitstatus:
+    if child.exitstatus != 0:
         raise Exception(stdout)
     return stdout
 
