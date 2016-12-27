@@ -12,7 +12,8 @@ from os import path, unlink
 def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
     """connect to host via ssh"""
     output_file = tempfile.NamedTemporaryFile(delete=False)
-    option = ["-q", "-oStrictHostKeyChecking=no", "-oUserKnownHostsFile=/dev/null"]
+    option = ["-q", "-oStrictHostKeyChecking=no",
+              "-oUserKnownHostsFile=/dev/null"]
     if password != "":
         option.append("-oPubkeyAuthentication=no")
     if bg_run:
