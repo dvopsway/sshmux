@@ -6,6 +6,7 @@ import socket
 
 from os import path, unlink
 
+
 def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
 
     output_file = tempfile.NamedTemporaryFile(delete=False)
@@ -84,13 +85,13 @@ def validate_key(value):
 
 
 @click.command()
-@click.option('--hostname', '-h', callback=validate_hostname, multiple=True, help='IP address or hostname')
-@click.option('--username', '-u', callback=validate_user, default='', help='ssh username')
+@click.option('--hostname', '-h', callback=validate_hostname, multiple=True, help='IP address or hostname')  # NOQA
+@click.option('--username', '-u', callback=validate_user, default='', help='ssh username')  # NOQA
 @click.option('--password', '-p', default='', help='ssh password')
 @click.option('--key', '-k', default='', help='ssh private key')
 def sshmux(hostname, username, password, key):
     """Open ssh session with each ip and execute a command from stdin."""
-    
+
     private_key = None
     if key != '':
         private_key = validate_key(key)
