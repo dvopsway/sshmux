@@ -10,4 +10,3 @@ sshmux.egg-info
 docs/_build
 dist
 build/
-sites/*/_build
