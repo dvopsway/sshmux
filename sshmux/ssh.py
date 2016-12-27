@@ -46,7 +46,7 @@ def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
     if child.exitstatus != 0:
         raise Exception(stdout)
     print_output(host, stdout)
-    return
+    return stdout
 
 
 def print_output(server, output):
