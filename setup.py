@@ -19,7 +19,7 @@ setup(name='sshmux',
       install_requires=["pexpect","click"],
       entry_points={
           'console_scripts': [
-              'sshmux = sshmux.ssh:sshmux',
+              'sshmux = sshmux.ssh:main',
           ]
       },
       )

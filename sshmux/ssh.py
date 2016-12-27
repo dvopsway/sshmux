@@ -5,6 +5,7 @@ import pexpect
 import tempfile
 import click
 import socket
+import multiprocessing
 
 from os import path, unlink
 
@@ -44,7 +45,14 @@ def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
 
     if child.exitstatus != 0:
         raise Exception(stdout)
-    return stdout
+    print_output(host, stdout)
+    return
+
+
+def print_output(server, output):
+    print(server + ":\n")
+    for line in output.split('\n')[1:]:
+        print(line)
 
 
 def validate_hostname(ctx, param, value):
@@ -97,11 +105,14 @@ def main(hostname, username, password, key):
     print("Enter your commands below:\n")
     command = input("sshmux > ")
     while command != "quit":
+        procs = []
         for server in hostname:
-            output = ssh(server, command, username, password, private_key)
-            print(server + ":\n")
-            for line in output.split('\n')[1:]:
-                print(line)
+            procs.append(multiprocessing.Process(target=ssh, args=(
+                server, command, username, password, private_key)))
+        for proc in procs:
+            proc.start()
+        for proc in procs:
+            proc.join()
         command = str(input("sshmux > "))
     print("session closed")
 
