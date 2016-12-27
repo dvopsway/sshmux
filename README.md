@@ -64,7 +64,8 @@ sshmux > quit
 
 ## Contributing
 if your code doesn't follow the contribution guidelines it won't be merged
-1. read CONTRIBUTING.md
+
+1. read [CONTRIBUTING.md](https://github.com/dvopsway/sshmux/blob/master/CONTRIBUTING.md)
 2. Fork it!
 3. Create your feature branch: `git checkout -b my-new-feature`
 4. stage your feature: `git add <changed_file>`
