@@ -1,4 +1,5 @@
-# Sshmux
+# sshmux 
+![travis status](https://travis-ci.org/dvopsway/sshmux.svg?branch=master)
 
 Run commands over ssh on multiple servers, sshmux can help you in debugging stuff on multiple servers parallelly, continue reading to understand how it works.
 
