@@ -1,0 +1,27 @@
+language: python
+python:
+- '2.7'
+install:
+- pip install -r requirements.txt
+- pip install flake8
+- pip install -e .
+before_script:
+- ssh-keygen -f ~/.ssh/id_rsa -N ""
+- cp ~/.ssh/{id_rsa.pub,authorized_keys}
+- eval $(ssh-agent)
+- ssh-add
+- export sshmux_test_host=127.0.0.1
+- export sshmux_test_user=travis
+- export sshmux_test_key=~/.ssh/id_rsa
+script:
+- flake8 sshmux/.
+- python tests/test_ssh.py -v
+deploy:
+  provider: pypi
+  user: padmakarojha
+  password:
+    secure: FOAedGWSj7neioHlSK6ZG4yxws7xDMCDjPkikn+R0gDu/g4fbSlXkFmlsxwQULRqqcLESAQuneZWlUuFHJgXWuXUI/oA82nNb7/dSQXFASK+w7diUZ3p70ALSaXqwfikhsBM/XJpGAqq30aCYg+660x3JSGpOVPmy7aW0srMsyXGSsvn1b7ftpZGUb/bDDAYSY0jXcKF2t7C/zWZ0+ymqRcX7BEHhcYBePJsav7hyM9oxLB+aP0FS7NQelFThUEcaXA2ySFJHNeJWhawQKPRBp9XkHL3XjJe9CeWB6S0f+QUoCM6f3JGwOocJebCbSP1ACELK3LjDgfv+uJ7074eWT21VERm+2BVAiME0OIjAx2nZkIAzQkUYnSqvTf0PP+zYHh6YbZssJoKoAfsIm5Qng1hOTOBvYsXks5V3E20PUQoK8adPpTm1GCmRQhM5mpP77V3/nOrgKVeScQbY2y7B6Xd9bbww7+HxllieYrNxAhZdmiV0lyZGl1VawD4M5MRQLMw9X4SdyhC7l/JTdzbH1Hz+hUWG1eCya7jJiYGLeIV4GVeL00XT6I+6lLttm38e17MNxsUzyZQnFJOLNmnA1APgBW6BrHsg1Xvip7NXQbyLV4x3k2EqsjjMSk3TktfK8hjUyUJifL7qB+rXb5Oup2WdS6MbZwfofeD9IeoO6w=
+  on:
+    tags: true
+    distributions: sdist bdist_wheel
+    repo: dvopsway/sshmux
