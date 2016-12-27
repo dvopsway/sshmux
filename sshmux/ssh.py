@@ -39,7 +39,7 @@ def ssh(host, cmd, user, password, key, timeout=30, bg_run=False):
     child.close()
     output_file.close()
 
-    read_file = open(output_file.name, 'r')
+    read_file = open(output_file.name, 'r', newline="\r\n")
     stdout = read_file.read()
     output_file.close()
     read_file.close()
