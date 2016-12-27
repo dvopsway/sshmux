@@ -1,4 +1,6 @@
 from __future__ import print_function
+from builtins import input
+
 import pexpect
 import tempfile
 import click
@@ -89,23 +91,23 @@ def validate_key(value):
 @click.option('--username', '-u', callback=validate_user, default='', help='ssh username')  # NOQA
 @click.option('--password', '-p', default='', help='ssh password')
 @click.option('--key', '-k', default='', help='ssh private key')
-def sshmux(hostname, username, password, key):
+def main(hostname, username, password, key):
     """Open ssh session with each ip and execute a command from stdin."""
 
     private_key = None
     if key != '':
         private_key = validate_key(key)
     print("Enter your commands below:\n")
-    command = raw_input("sshmux > ")
+    command = input("sshmux > ")
     while command != "quit":
         for server in hostname:
             output = ssh(server, command, username, password, private_key)
             print(server + ":\n")
             for line in output.split('\n')[1:]:
                 print(line)
-        command = str(raw_input("sshmux > "))
+        command = str(input("sshmux > "))
     print("session closed")
 
 
 if __name__ == '__main__':
-    sshmux()
+    main()
