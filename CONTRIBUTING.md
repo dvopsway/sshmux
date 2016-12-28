@@ -5,7 +5,7 @@ developers of all skill levels. To get started, simply fork the master branch
 on GitHub to your personal account and then clone the fork into your
 development environment.
 
-Padmakar Ojha (**dvopsway** on github) is the original creator of the
+Padmakar Ojha (**dvopsway** on github and twitter) is the original creator of the
 SSHmux projet, and currently maintains the project along with Rob Haverkamp (**rjrhaverkamp** on GitHub and Twitter).
 
 Please don't hesitate to reach out if you have any questions, or just need a
