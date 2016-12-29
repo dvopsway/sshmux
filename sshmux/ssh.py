@@ -87,7 +87,7 @@ def validate_user(ctx, param, value):
     return value
 
 
-def validate_key(ctx, param, value):
+def validate_key(value):
     """validate that key exists."""
     if path.exists(value):
         return value
@@ -102,9 +102,11 @@ def validate_key(ctx, param, value):
               help='ssh username')
 @click.option('--password', '-p', default=False, help='ssh password')
 @click.option('--key', '-k', default=environ['HOME'] + '/.ssh/id_rsa',
-              help='ssh private key', callback=validate_key)
+              help='ssh private key')
 def main(hostname, username, password, key):
     """Open ssh session with each ip and execute a command from stdin."""
+    if not password:
+        key = validate_key(key)
     if password:
         password = getpass()
         password = validate_pass(password)
