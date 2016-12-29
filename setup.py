@@ -16,10 +16,10 @@ setup(name='sshmux',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
       zip_safe=False,
-      install_requires=["pexpect","click"],
+      install_requires=["pexpect","ptyprocess","click","future"],
       entry_points={
           'console_scripts': [
-              'sshmux = sshmux.ssh:main',
+              'sshmux = sshmux.main:main',
           ]
       },
       )

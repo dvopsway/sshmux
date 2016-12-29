@@ -1,13 +1,13 @@
 import click
 import unittest
-from sshmux import ssh
+from sshmux import validate
 import pprint
 
 from click.testing import CliRunner
 
 class TestValidations(unittest.TestCase):
     @click.command()
-    @click.option('--hostname', '-h', callback=ssh.validate_hostname, multiple=True, help='IP address or hostname') # NOQA
+    @click.option('--hostname', '-h', callback=validate.validate_hostname, multiple=True, help='IP address or hostname') # NOQA
     def check_hostname(hostname):
         click.echo('sucess')
     
