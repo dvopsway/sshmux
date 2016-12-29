@@ -21,7 +21,7 @@ python setup.py install
 
 ## Getting Started :
 
-sshmux can work with multiple IPs 
+sshmux can work with multiple IPs or hostnames
 
 To get started, start with --help
 ```
@@ -31,8 +31,8 @@ Usage: sshmux [OPTIONS]
 Options:
   -h, --hostname TEXT  hostname or IP address
   -u, --username TEXT  ssh username
-  -p, --password TEXT  ssh password
-  -k, --key TEXT       ssh private key
+  -p, --password BOOL  ssh password
+  -k, --key      TEXT  ssh private key
   --help               Show this message and exit.
 ```
 
@@ -61,6 +61,12 @@ drwx------  2 ec2-user ec2-user 4096 Dec 23 11:56 ssh-lN3JYqQep7
 
 sshmux > quit
 ```
+
+## Password usage:
+
+sshmux default is to use an ssh private key located in `~/.ssh/id_rsa`.
+If you want to use a password you need to add `-p True` or
+ `--password True` to the command. sshmux will then ask you for a password.
 
 ## Contributing
 if your code doesn't follow the contribution guidelines it won't be merged

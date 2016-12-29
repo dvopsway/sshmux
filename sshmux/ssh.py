@@ -6,8 +6,8 @@ import tempfile
 import click
 import socket
 import multiprocessing
-
-from os import path, unlink
+from getpass import getpass
+from os import path, unlink, environ
 
 
 def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
@@ -15,21 +15,24 @@ def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
     output_file = tempfile.NamedTemporaryFile(delete=False)
     option = ["-q", "-oStrictHostKeyChecking=no",
               "-oUserKnownHostsFile=/dev/null"]
-    if password != "":
+    if password:
         option.append("-oPubkeyAuthentication=no")
+    if not password:
+        option.append("-o PreferredAuthentications=publickey")
     if bg_run:
         option.append('-f')
+
     options = " ".join(option)
     ssh_cmd = None
-    if password == "":
+    if not password:
         ssh_cmd = 'ssh -i {0} {1}@{2} {3} "{4}"'.format(
             key, user, host, options, cmd)
-    elif password != "":
+    elif password:
         ssh_cmd = 'ssh {0}@{1} {2} "{3}"'.format(user, host, options, cmd)
 
     child = pexpect.spawn(ssh_cmd, timeout=timeout)
-    if password != "":
-        child.expect(['password: '])
+    if password:
+        child.expect(['Password for'])
         child.sendline(password)
 
     child.logfile = output_file
@@ -37,6 +40,7 @@ def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
     child.close()
     output_file.close()
 
+    # BUG(rjrhaverkamp): U mode is deprecated
     read_file = open(output_file.name, 'rU')
     stdout = read_file.read()
     output_file.close()
@@ -83,7 +87,7 @@ def validate_user(ctx, param, value):
     return value
 
 
-def validate_key(value):
+def validate_key(ctx, param, value):
     """validate that key exists."""
     if path.exists(value):
         return value
@@ -92,23 +96,26 @@ def validate_key(value):
 
 
 @click.command()
-@click.option('--hostname', '-h', callback=validate_hostname, multiple=True, help='IP address or hostname')  # NOQA
-@click.option('--username', '-u', callback=validate_user, default='', help='ssh username')  # NOQA
-@click.option('--password', '-p', default='', help='ssh password')
-@click.option('--key', '-k', default='', help='ssh private key')
+@click.option('--hostname', '-h', callback=validate_hostname, multiple=True,
+              help='IP address or hostname')
+@click.option('--username', '-u', callback=validate_user, default='',
+              help='ssh username')
+@click.option('--password', '-p', default=False, help='ssh password')
+@click.option('--key', '-k', default=environ['HOME'] + '/.ssh/id_rsa',
+              help='ssh private key', callback=validate_key)
 def main(hostname, username, password, key):
     """Open ssh session with each ip and execute a command from stdin."""
-
-    private_key = None
-    if key != '':
-        private_key = validate_key(key)
+    if password:
+        password = getpass()
+        password = validate_pass(password)
     print("Enter your commands below:\n")
     command = input("sshmux > ")
+
     while command != "quit":
         procs = []
         for server in hostname:
-            procs.append(multiprocessing.Process(target=ssh, args=(
-                server, command, username, password, private_key)))
+            procs.append(multiprocessing.Process(
+                target=ssh, args=(server, command, username, password, key)))
         for proc in procs:
             proc.start()
         for proc in procs:
