@@ -114,12 +114,8 @@ def main(hostname, username, password, key):
     while command != "quit":
         procs = []
         for server in hostname:
-            if not password:
-                procs.append(multiprocessing.Process(
-                    target=ssh, args=(server, command, username, password, key)))
-            elif password:
-                procs.append(multiprocessing.Process(
-                    target=ssh, args=(server, command, username, password, key)))
+            procs.append(multiprocessing.Process(
+                target=ssh, args=(server, command, username, password, key)))
         for proc in procs:
             proc.start()
         for proc in procs:
