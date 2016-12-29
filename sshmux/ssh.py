@@ -6,6 +6,7 @@ from os import unlink
 
 
 def print_output(server, output):
+    """parse ssh output and print to stdout"""
     print(server + ":\n")
     for line in output.split('\n')[1:]:
         print(line)

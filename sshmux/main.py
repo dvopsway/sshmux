@@ -3,15 +3,15 @@ from builtins import input
 
 import click
 import multiprocessing
-import validate
-from ssh import ssh
+from sshmux import validate
+from sshmux.ssh import ssh
 from getpass import getpass
 from os import environ
 
 
 @click.command()
 @click.option('--hostname', '-h', callback=validate.validate_hostname,
-              multiple=True, help='IP address or hostname')  # NOQA
+              multiple=True, help='IP address or hostname')
 @click.option('--username', '-u', callback=validate.validate_user, default='',
               help='ssh username')
 @click.option('--password', '-p', default=False, help='ssh password')
