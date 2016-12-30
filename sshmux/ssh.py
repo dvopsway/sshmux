@@ -3,6 +3,7 @@ from __future__ import print_function
 import pexpect
 import tempfile
 from os import unlink
+from sshmux.errors import MuxError
 
 
 def print_output(server, output):
@@ -50,6 +51,6 @@ def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
     unlink(output_file.name)
 
     if child.exitstatus != 0:
-        raise Exception(stdout)
+        raise MuxError(stdout)
     print_output(host, stdout)
     return stdout

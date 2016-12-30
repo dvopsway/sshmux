@@ -2,6 +2,8 @@ import click
 import socket
 from os import path
 
+from sshmux.errors import MuxError
+
 
 def validate_hostname(ctx, param, hostname):
     "validate hostname / IP address"
@@ -20,7 +22,7 @@ def validate_hostname(ctx, param, hostname):
 def validate_pass(password):
     """validate password lenght"""
     if len(password) == 0 or len(password) > 100:
-        raise ValidationError('password length is not valid')
+        raise MuxError('password length is not valid')
     return password
 
 
@@ -36,9 +38,4 @@ def validate_key(key_path):
     if path.exists(key_path):
         return key_path
     else:
-        raise ValidationError('{0} file doesn\'t exist'.format(key_path))
-
-
-class ValidationError(Exception):
-    """Exception for validation errors"""
-    pass
+        raise MuxError('{0} file doesn\'t exist'.format(key_path))
