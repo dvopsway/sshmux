@@ -1,4 +1,4 @@
-# sshmux ![travis status](https://travis-ci.org/dvopsway/sshmux.svg?branch=master) [![codecov](https://codecov.io/gh/dvopsway/sshmux/branch/master/graph/badge.svg)](https://codecov.io/gh/dvopsway/sshmux)
+# sshmux ![travis status](https://travis-ci.org/dvopsway/sshmux.svg?branch=master) [![codecov](https://codecov.io/gh/dvopsway/sshmux/branch/master/graph/badge.svg)](https://codecov.io/gh/dvopsway/sshmux) [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/dvopsway/sshmux)
 
 
 Run commands over ssh on multiple servers, sshmux can help you in debugging stuff on multiple servers parallelly, continue reading to understand how it works.
