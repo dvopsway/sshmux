@@ -1,7 +1,7 @@
 import unittest
 from os import environ
 
-from sshmux import ssh
+from sshmux import ssh, errors
 
 
 class TestSSH(unittest.TestCase):
@@ -15,7 +15,7 @@ class TestSSH(unittest.TestCase):
         host = environ['sshmux_test_host']
         user = environ['sshmux_test_user']
         key = environ['sshmux_test_key']
-        self.assertRaises(Exception, ssh.ssh, host,
+        self.assertRaises(errors.MuxError, ssh.ssh, host,
                           'does_not_exist', user, '', key)
 
 if __name__ == '__main__':
