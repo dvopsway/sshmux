@@ -26,10 +26,6 @@ class TestValidations(unittest.TestCase):
     def check_key(key):
         click.echo('sucess')
 
-    def check_password(password):
-        validate.validate_pass(password)
-        return password
-
     def test_hostname_check(self):
         runner = CliRunner()
         result = runner.invoke(self.check_hostname, ['-h', '127.0.0.1'])
