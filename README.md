@@ -1,6 +1,5 @@
 
-# sshmux ![travis status](https://travis-ci.org/dvopsway/sshmux.svg?branch=master) [![codecov](https://codecov.io/gh/dvopsway/sshmux/branch/master/graph/badge.svg)](https://codecov.io/gh/dvopsway/sshmux) [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/dvopsway/sshmux) [![Join the chat at https://gitter.im/spring-projects/spring-ldap](https://badges.gitter.im/spring-projects/spring-ldap.svg)](https://gitter.im/spring-projects/spring-ldap?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
+# sshmux ![travis status](https://travis-ci.org/dvopsway/sshmux.svg?branch=master) [![codecov](https://codecov.io/gh/dvopsway/sshmux/branch/master/graph/badge.svg)](https://codecov.io/gh/dvopsway/sshmux) [![StackShare](https://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/dvopsway/sshmux) [![Join the chat at https://gitter.im/dvopsway/sshmux](https://badges.gitter.im/dvopsway/sshmux.svg)](https://gitter.im/dvopsway/sshmux?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Run commands over ssh on multiple servers, sshmux can help you in debugging stuff on multiple servers parallelly, continue reading to understand how it works.
 
 ## Installation :
