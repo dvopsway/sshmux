@@ -2,6 +2,7 @@ import click
 import unittest
 from sshmux import validate
 from os import environ
+import sys
 
 from click.testing import CliRunner
 
@@ -24,6 +25,10 @@ class TestValidations(unittest.TestCase):
                   help='ssh private key')
     def check_key(key):
         click.echo('sucess')
+
+    def check_password(password):
+        validate.validate_pass(password)
+        return password
 
     def test_hostname_check(self):
         runner = CliRunner()
@@ -53,11 +58,19 @@ class TestValidations(unittest.TestCase):
         result = runner.invoke(
             self.check_key, ['-k', key])
         self.assertEqual('sucess\n', result.output)
-    # NOTE(rjrhaverkamp): Does not work, so commented out.
-    # def test_password_fail(self):
-    #     password = "sshmuxpassword" * 12
-    #     self.assertRaises(click.exceptions.BadParameter,
-    #                       validate.validate_pass(password))
+
+    def test_key_fail(self):
+        key = environ['HOME'] + '/.ssh/id_rsa_that_does_not_exist'
+        self.assertRaises(validate.ValidationError, validate.validate_key, key)
+
+    def test_password_check(self):
+        password = "testpassword"
+        valid_password = validate.validate_pass(password)
+        self.assertEqual(password, valid_password)
+
+    def test_password_fail(self):
+        self.assertRaises(validate.ValidationError,
+                          validate.validate_pass, "testpassword" * 12)
 
 if __name__ == '__main__':
     unittest.main()
