@@ -33,4 +33,4 @@ def ssh(host, cmd, user, key, bg_run=False):
     output, _ = run.communicate()
     stdout = output.decode("utf-8")
     print_output(host, stdout)
-    return
+    return stdout
