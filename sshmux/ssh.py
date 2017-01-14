@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import pexpect
+from subprocess import Popen, PIPE, STDOUT
 import tempfile
 from os import unlink
 from sshmux.errors import MuxError
@@ -13,30 +13,24 @@ def print_output(server, output):
         print(line)
 
 
-def ssh(host, cmd, user, password, key, timeout=10, bg_run=False):
+def ssh(host, cmd, user, key, timeout=10, bg_run=False):
     """connect to host via ssh"""
     output_file = tempfile.NamedTemporaryFile(delete=False)
     option = ["-q", "-oStrictHostKeyChecking=no",
-              "-oUserKnownHostsFile=/dev/null"]
-    if password:
-        option.append("-oPubkeyAuthentication=no")
-    if not password:
-        option.append("-o PreferredAuthentications=publickey")
+              "-oUserKnownHostsFile=/dev/null", "-o PreferredAuthentications=publickey"]
     if bg_run:
         option.append('-f')
-
     options = " ".join(option)
     ssh_cmd = None
     if not password:
         ssh_cmd = 'ssh -i {0} {1}@{2} {3} "{4}"'.format(
             key, user, host, options, cmd)
-    elif password:
-        ssh_cmd = 'ssh {0}@{1} {2} "{3}"'.format(user, host, options, cmd)
 
-    child = pexpect.spawn(ssh_cmd, timeout=timeout)
-    if password:
-        child.expect(['Password for'])
-        child.sendline(password)
+    run = Popen(ssh_cmd, stdout=PIPE, stderr=STDOUT, shell=True)
+    run.wait()
+    if not run.returncode:
+        raise MuxError("failed to run {0} on {1}".format(cmd, host))
+
 
     child.logfile = output_file
     child.expect(pexpect.EOF)
