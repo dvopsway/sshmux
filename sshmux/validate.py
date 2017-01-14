@@ -18,11 +18,13 @@ def validate_hostname(ctx, param, hostname):
                     '{0} - Address is not valid'.format(address))
     return hostname
 
+
 def validate_user(ctx, param, username):
     """validate username length"""
     if len(username) == 0 or len(username) > 100:
         raise click.BadParameter('username length is not valid')
     return username
+
 
 def validate_key(key_path):
     """validate that key exists."""

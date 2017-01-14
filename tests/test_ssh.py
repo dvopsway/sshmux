@@ -18,5 +18,6 @@ class TestSSH(unittest.TestCase):
         self.assertRaises(errors.MuxError, ssh.ssh, host,
                           'does_not_exist', user, key)
 
+
 if __name__ == '__main__':
     unittest.main()

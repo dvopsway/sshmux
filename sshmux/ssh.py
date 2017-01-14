@@ -14,7 +14,8 @@ def print_output(server, output):
 def ssh(host, cmd, user, key, bg_run=False):
     """connect to host via ssh"""
     option = ["-q", "-oStrictHostKeyChecking=no",
-              "-oUserKnownHostsFile=/dev/null", "-o PreferredAuthentications=publickey"]
+              "-oUserKnownHostsFile=/dev/null",
+              "-o PreferredAuthentications=publickey"]
     if bg_run:
         option.append('-f')
     options = " ".join(option)

@@ -5,7 +5,6 @@ import click
 import multiprocessing
 from sshmux import validate
 from sshmux.ssh import ssh
-from getpass import getpass
 from os import environ
 
 

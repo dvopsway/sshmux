@@ -3,7 +3,6 @@ import unittest
 from sshmux import validate
 from sshmux.errors import MuxError
 from os import environ
-import sys
 
 from click.testing import CliRunner
 
@@ -11,14 +10,14 @@ from click.testing import CliRunner
 class TestValidations(unittest.TestCase):
 
     @click.command()
-    @click.option('--hostname', '-h', callback=validate.validate_hostname, multiple=True,
-                  help='IP address or hostname')
+    @click.option('--hostname', '-h', callback=validate.validate_hostname,
+                  multiple=True, help='IP address or hostname')
     def check_hostname(hostname):
         click.echo('sucess')
 
     @click.command()
-    @click.option('--username', '-u', callback=validate.validate_user, default='',
-                  help='ssh username')
+    @click.option('--username', '-u', callback=validate.validate_user,
+                  default='', help='ssh username')
     def check_username(username):
         click.echo('sucess')
 
@@ -60,6 +59,7 @@ class TestValidations(unittest.TestCase):
     def test_key_fail(self):
         key = environ['HOME'] + '/.ssh/id_rsa_that_does_not_exist'
         self.assertRaises(MuxError, validate.validate_key, key)
+
 
 if __name__ == '__main__':
     unittest.main()
