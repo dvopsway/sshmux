@@ -13,38 +13,38 @@ def print_output(server, output):
         print(line)
 
 
-def ssh(host, cmd, user, key, timeout=10, bg_run=False):
+def ssh(host, cmd, user, key, wait=10, bg_run=False):
     """connect to host via ssh"""
-    output_file = tempfile.NamedTemporaryFile(delete=False)
+    # output_file = tempfile.NamedTemporaryFile(delete=False)
     option = ["-q", "-oStrictHostKeyChecking=no",
               "-oUserKnownHostsFile=/dev/null", "-o PreferredAuthentications=publickey"]
     if bg_run:
         option.append('-f')
     options = " ".join(option)
     ssh_cmd = None
-    if not password:
-        ssh_cmd = 'ssh -i {0} {1}@{2} {3} "{4}"'.format(
-            key, user, host, options, cmd)
+    ssh_cmd = 'ssh -i {0} {1}@{2} {3} "{4}"'.format(
+        key, user, host, options, cmd)
 
     run = Popen(ssh_cmd, stdout=PIPE, stderr=STDOUT, shell=True)
     run.wait()
-    if not run.returncode:
-        raise MuxError("failed to run {0} on {1}".format(cmd, host))
+    # if not run.returncode:
+    #     raise MuxError("failed to run {0} on {1}".format(cmd, host))
 
+    output, _ = run.communicate()
 
-    child.logfile = output_file
-    child.expect(pexpect.EOF)
-    child.close()
-    output_file.close()
+    # child.logfile = output_file
+    # child.expect(pexpect.EOF)
+    # child.close()
+    # output_file.close()
 
-    # BUG(rjrhaverkamp): U mode is deprecated
-    read_file = open(output_file.name, 'rU')
-    stdout = read_file.read()
-    output_file.close()
-    read_file.close()
-    unlink(output_file.name)
+    # # BUG(rjrhaverkamp): U mode is deprecated
+    # read_file = open(output_file.name, 'rU')
+    # stdout = read_file.read()
+    # output_file.close()
+    # read_file.close()
+    # unlink(output_file.name)
 
-    if child.exitstatus != 0:
-        raise MuxError(stdout)
-    print_output(host, stdout)
-    return stdout
+    # if child.exitstatus != 0:
+    #     raise MuxError(stdout)
+    print_output(host, output.decode("utf-8"))
+    return output.decode("utf-8")
