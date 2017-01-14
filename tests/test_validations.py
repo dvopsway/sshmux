@@ -61,14 +61,5 @@ class TestValidations(unittest.TestCase):
         key = environ['HOME'] + '/.ssh/id_rsa_that_does_not_exist'
         self.assertRaises(MuxError, validate.validate_key, key)
 
-    def test_password_check(self):
-        password = "testpassword"
-        valid_password = validate.validate_pass(password)
-        self.assertEqual(password, valid_password)
-
-    def test_password_fail(self):
-        self.assertRaises(MuxError,
-                          validate.validate_pass, "testpassword" * 12)
-
 if __name__ == '__main__':
     unittest.main()

@@ -11,7 +11,7 @@ def print_output(server, output):
         print(line)
 
 
-def ssh(host, cmd, user, key, wait=10, bg_run=False):
+def ssh(host, cmd, user, key, bg_run=False):
     """connect to host via ssh"""
     option = ["-q", "-oStrictHostKeyChecking=no",
               "-oUserKnownHostsFile=/dev/null", "-o PreferredAuthentications=publickey"]
@@ -24,12 +24,12 @@ def ssh(host, cmd, user, key, wait=10, bg_run=False):
 
     run = Popen(ssh_cmd, stdout=PIPE, stderr=STDOUT, shell=True)
     run.wait()
-    
+
     if run.returncode != 0:
         raise MuxError("failed to run {0} on {1}. Exited with: {2}".format(
             cmd, host, run.returncode))
 
     output, _ = run.communicate()
-    print(run.returncode)
-    print_output(host, output.decode("utf-8"))
-    return output.decode("utf-8")
+    stdout = output.decode("utf-8")
+    print_output(host, stdout)
+    return

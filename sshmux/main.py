@@ -14,16 +14,11 @@ from os import environ
               multiple=True, help='IP address or hostname')
 @click.option('--username', '-u', callback=validate.validate_user, default='',
               help='ssh username')
-@click.option('--password', '-p', default=False, help='ssh password')
 @click.option('--key', '-k', default=environ['HOME'] + '/.ssh/id_rsa',
               help='ssh private key')
-def main(hostname, username, password, key):
+def main(hostname, username, key):
     """Open ssh session with each ip and execute a command from stdin."""
-    if not password:
-        key = validate.validate_key(key)
-    if password:
-        password = getpass()
-        password = validate.validate_pass(password)
+    key = validate.validate_key(key)
     print("Enter your commands below:\n")
     command = input("sshmux > ")
 
@@ -31,7 +26,7 @@ def main(hostname, username, password, key):
         procs = []
         for server in hostname:
             procs.append(multiprocessing.Process(
-                target=ssh, args=(server, command, username, password, key)))
+                target=ssh, args=(server, command, username, key)))
         for proc in procs:
             proc.start()
         for proc in procs:

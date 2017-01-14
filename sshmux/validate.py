@@ -18,20 +18,11 @@ def validate_hostname(ctx, param, hostname):
                     '{0} - Address is not valid'.format(address))
     return hostname
 
-
-def validate_pass(password):
-    """validate password lenght"""
-    if len(password) == 0 or len(password) > 100:
-        raise MuxError('password length is not valid')
-    return password
-
-
 def validate_user(ctx, param, username):
     """validate username length"""
     if len(username) == 0 or len(username) > 100:
         raise click.BadParameter('username length is not valid')
     return username
-
 
 def validate_key(key_path):
     """validate that key exists."""
