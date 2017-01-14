@@ -1,8 +1,6 @@
 from __future__ import print_function
 
 from subprocess import Popen, PIPE, STDOUT
-import tempfile
-from os import unlink
 from sshmux.errors import MuxError
 
 
@@ -15,7 +13,6 @@ def print_output(server, output):
 
 def ssh(host, cmd, user, key, wait=10, bg_run=False):
     """connect to host via ssh"""
-    # output_file = tempfile.NamedTemporaryFile(delete=False)
     option = ["-q", "-oStrictHostKeyChecking=no",
               "-oUserKnownHostsFile=/dev/null", "-o PreferredAuthentications=publickey"]
     if bg_run:
@@ -27,24 +24,12 @@ def ssh(host, cmd, user, key, wait=10, bg_run=False):
 
     run = Popen(ssh_cmd, stdout=PIPE, stderr=STDOUT, shell=True)
     run.wait()
-    # if not run.returncode:
-    #     raise MuxError("failed to run {0} on {1}".format(cmd, host))
+    
+    if run.returncode != 0:
+        raise MuxError("failed to run {0} on {1}. Exited with: {2}".format(
+            cmd, host, run.returncode))
 
     output, _ = run.communicate()
-
-    # child.logfile = output_file
-    # child.expect(pexpect.EOF)
-    # child.close()
-    # output_file.close()
-
-    # # BUG(rjrhaverkamp): U mode is deprecated
-    # read_file = open(output_file.name, 'rU')
-    # stdout = read_file.read()
-    # output_file.close()
-    # read_file.close()
-    # unlink(output_file.name)
-
-    # if child.exitstatus != 0:
-    #     raise MuxError(stdout)
+    print(run.returncode)
     print_output(host, output.decode("utf-8"))
     return output.decode("utf-8")
