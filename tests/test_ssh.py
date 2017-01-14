@@ -19,5 +19,10 @@ class TestSSH(unittest.TestCase):
                           'does_not_exist', user, key)
 
 
+    def test_background_run(self):
+        output = ssh.ssh(environ['sshmux_test_host'], 'echo "hello"&', environ[
+                         'sshmux_test_user'], environ['sshmux_test_key'], bg_run=True)
+        self.assertEqual(output, 'hello\n')
+
 if __name__ == '__main__':
     unittest.main()
