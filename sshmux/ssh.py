@@ -18,7 +18,7 @@ def ssh(host, cmd, user, key, bg_run=False):
               "-o PreferredAuthentications=publickey"]
     if bg_run:
         option.append('-f')
-    options = " ".join(option)
+    options = " ".join(option) 
     ssh_cmd = None
     ssh_cmd = 'ssh -i {0} {1}@{2} {3} "{4}"'.format(
         key, user, host, options, cmd)
@@ -26,6 +26,8 @@ def ssh(host, cmd, user, key, bg_run=False):
     run = Popen(ssh_cmd, stdout=PIPE, stderr=STDOUT, shell=True)
     run.wait()
 
+    if run.returncode == 127:
+        raise MuxError("command {0} does not exist.".format(cmd)) 
     if run.returncode != 0:
         raise MuxError("failed to run {0} on {1}. Exited with: {2}".format(
             cmd, host, run.returncode))
