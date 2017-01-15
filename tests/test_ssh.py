@@ -18,11 +18,10 @@ class TestSSH(unittest.TestCase):
         self.assertRaises(errors.MuxError, ssh.ssh, host,
                           'does_not_exist', user, key)
 
-
     def test_background_run(self):
-        output = ssh.ssh(environ['sshmux_test_host'], 'echo "hello"&', environ[
-                         'sshmux_test_user'], environ['sshmux_test_key'], bg_run=True)
+        output = ssh.ssh(environ['sshmux_test_host'], 'echo "hello"&', environ['sshmux_test_user'], environ['sshmux_test_key'], bg_run=True) # NOQA
         self.assertEqual(output, 'hello\n')
+
 
 if __name__ == '__main__':
     unittest.main()
