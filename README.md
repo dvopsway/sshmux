@@ -5,7 +5,7 @@ Run commands over ssh on multiple servers, sshmux can help you in debugging stuf
 
 ## Installation :
 
-Use pip to install sshmux (will be available soon)
+Use pip to install sshmux
 
 ```
 pip install sshmux
